@@ -1,0 +1,1 @@
+package{	public class DebugInterests 	{		public static const B			:String			= "berend";		public static const S			:String 		= "server";		public static const IO			:String 		= "io";				public static var GA			:String			= "GoogleAnalytics";	} }

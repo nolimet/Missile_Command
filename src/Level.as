@@ -60,8 +60,8 @@ package
 				
 			}
 			
-			l = _cannons.length;
-			for (var j:int = 0; j < l; j++) 
+			l = _cannons.length-1;
+			for (var j:int = 0; j <= l; j++) 
 			{
 				_cannons[j].rotation = poinToMouse(_cannons[j]);
 			}
@@ -76,7 +76,7 @@ package
 					{
 						if (_bullets[k].explode)
 						{
-							placeExplosion(_bullets[k].x, _bullets[i].y);
+							placeExplosion(_bullets[k].x, _bullets[k].y);
 						}
 						removeChild(_bullets[k]);
 						_bullets.splice(k,1)
@@ -87,13 +87,36 @@ package
 			
 			for (var m:int = l; m >= 0; m--) 
 			{
-				_explosions[i].step()
-				if (_explosions[i].destroy==true)
+				_explosions[m].step()
+				if (_explosions[m].destroy==true)
 				{
-					removeChild(_explosions[i]);
-					_explosions.splice(i,1)
+					removeChild(_explosions[m]);
+					_explosions.splice(m,1)
 				}
 			}
+			try 
+			{
+				var a:Explosion;
+				var b:Missle;
+				for (var n:int = 0; n < _explosions.length; n++) 
+				{
+					a = _explosions[n];
+					for (var o:int = _missles.length; o >= 0; o--) 
+					{
+						b= _missles[o]
+						if (a.hitTestObject(b))
+						{
+							removeChild(_missles[o]);
+							_missles.splice(o,1)
+						}
+					}
+				}
+			}catch (e:Error)
+			{
+				trace("Error in hitTestObect")
+				trace(e.message);
+			}
+			
 				//else if (_world[i].tag == "Bullet")
 				//{
 					//_world[i].move(5);
@@ -106,8 +129,7 @@ package
 						//}
 						//removeChild(_world[i]);
 						//_world.splice(i,1)
-					//}
-				//}
+ 				//}
 				//else if (_world[i].tag == "Explosion")
 				//{
 					
@@ -172,7 +194,7 @@ package
 				b = new Bullet (c.x, c.y, mouseX,mouseY);
 				b.rotation=c.rotation
 				addChild(b);
-				_cannons.push(b);
+				_bullets.push(b);
 			}
 		}
 	}

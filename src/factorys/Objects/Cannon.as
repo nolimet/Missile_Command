@@ -1,4 +1,4 @@
-package  
+package  factorys.Objects
 {
 	import utils.draw.Circle;
 	import utils.draw.Squar;

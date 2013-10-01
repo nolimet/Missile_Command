@@ -4,11 +4,13 @@ package
 	import flash.events.MouseEvent;
 	import flash.events.TimerEvent;
 	import flash.utils.Timer;
-	import Missle;
+	import factorys.Objects.Missle;
 	import utils.draw.Squar;
 	import flash.display.Sprite;
 	import flash.text.TextField;
-	import Explosion;
+	import factorys.Objects.Explosion;
+	import factorys.Objects.Cannon;
+	import factorys.Objects.Bullet;
 	
 	/**
 	 * ...
@@ -16,7 +18,7 @@ package
 	 */
 	public class Level extends Sprite 
 	{
-		private var _world:Array = [];
+		private var _missles:Array = [];
 		private var _cannons:Array = [];
 		private var _bullets:Array = [];
 		private var _explosions:Array = [];
@@ -45,7 +47,7 @@ package
 		
 		public function step(e:Event):void 
 		{
-			var l:int = _cannons.length - 1
+			var l:int = _missles.length - 1
 			for (var i:int = l; i >= 0; i--) 
 			{
 				
@@ -64,9 +66,9 @@ package
 				_cannons[j].rotation = poinToMouse(_cannons[j]);
 			}
 			
-			l = _bullets.length
+			l = _bullets.length - 1;
 			
-			for (var k:int = 0; k < l; k++) 
+			for (var k:int = l; k >= 0; k--) 
 			{
 				_bullets[k].move(5);
 					_bullets[k].step();
@@ -79,6 +81,18 @@ package
 						removeChild(_bullets[k]);
 						_bullets.splice(k,1)
 					}
+			}
+			
+			l = _explosions.length - 1;
+			
+			for (var m:int = l; m >= 0; m--) 
+			{
+				_explosions[i].step()
+				if (_explosions[i].destroy==true)
+				{
+					removeChild(_explosions[i]);
+					_explosions.splice(i,1)
+				}
 			}
 				//else if (_world[i].tag == "Bullet")
 				//{
@@ -96,26 +110,21 @@ package
 				//}
 				//else if (_world[i].tag == "Explosion")
 				//{
-					//_world[i].step()
-					//if (_world[i].destroy==true)
-					//{
-						//removeChild(_world[i]);
-						//_world.splice(i,1)
-					//}
+					
 				//}
 			//}
-			//if (Main.instance.fireCannon == true&&_fireDelay==0)
-			//{
-				//fireCannons();
-				//_fireDelay = 5;
-			//}
-			//else
-			//{
-				//if (_fireDelay != 0)
-				//{
-					//_fireDelay--
-				//}
-			//}
+			if (Main.instance.fireCannon == true&&_fireDelay==0)
+			{
+				fireCannons();
+				_fireDelay = 5;
+			}
+			else
+			{
+				if (_fireDelay != 0)
+				{
+					_fireDelay--
+				}
+			}
 		}
 		
 		private function newMissle(amount:int=0) : void
@@ -125,14 +134,14 @@ package
 			{
 				var m:Missle = new Missle();
 				addChild(m)
-				_world.push(m);
+				_missles.push(m);
 			}
 		}
 		private function placeExplosion($x:Number,$y:Number):void
 		{
 			var e:Explosion = new Explosion($x, $y, Math.random() * 1.5 + 0.5);
 			addChild(e);
-			_world.push(e);
+			_explosions.push(e);
 		}
 		private function placeCannons():void
 		{
@@ -157,13 +166,13 @@ package
 		{
 			var b:Bullet;
 			var c:Cannon;
-			for (var i:int = 0; i < _cannons; i++) 
+			for (var i:int = 0; i < 5; i++) 
 			{
-				c = _world[i];
+				c = _cannons[i];
 				b = new Bullet (c.x, c.y, mouseX,mouseY);
 				b.rotation=c.rotation
 				addChild(b);
-				_world.push(b);
+				_cannons.push(b);
 			}
 		}
 	}

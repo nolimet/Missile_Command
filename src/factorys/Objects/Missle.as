@@ -17,7 +17,7 @@ package
 		private var art:Squar = new Squar(0, 0, 4, 4, 0xff0000);
 		public var tag:String = "Missle"
 		//public var angle:Number = Math.random() * 45 + 67.5;
-		public var angle:Number = 90;
+		public var angle:Number = 1.5;
 		
 		
 		//public var destroy:Boolean = false;

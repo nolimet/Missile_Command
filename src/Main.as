@@ -17,6 +17,8 @@ package
 	public static var STAGE:Stage;
 	public var fireCannon:Boolean;
 	private var _level:Level = new Level;
+	public var boost:Boolean = false;
+	private var _boostDure:int = 0;
 
 		public function Main() 
 		{

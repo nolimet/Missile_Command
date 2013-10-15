@@ -22,7 +22,7 @@ package
 	private var _level:Level = new Level;
 	private var _mainmenu:Mainmenu = new Mainmenu;
 	private var _boostDure:int = 0;
-	private var _currentRoom = 0;
+	private var _currentRoom:int = 0;
 
 		public function Main() 
 		{
@@ -51,11 +51,13 @@ package
 			if (_currentRoom == 0)
 			{
 				addChild(_mainmenu);
-			}
-			if (_mainmenu.StartGame.clicked)
-			{
 				
+				if (_mainmenu.startGame.clicked)
+				{
+					removeChild(_mainmenu);
+				}
 			}
+			
 		}
 		
 		private function mouse_up(e:MouseEvent):void 

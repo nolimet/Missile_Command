@@ -27,12 +27,14 @@ package utils.callulate
 		}
 		
 		/**
-			 * @param obj1 Object that will rotate
-			 * @param obj2 The Object that will be pointed at
-			 * 
-			 * @return Angle in degress
-			 */
-		public static function poinToMouse(obj1:Object,obj2:Object):Number 
+		 * function callculates the angle between two objects
+		 * 
+		 * @param obj1 Object that will rotate
+		 * @param obj2 The Object that will be pointed at
+		 * 
+		 * @return Angle in degress
+		 */
+		public static function poinToObject(obj1:Object,obj2:Object):Number 
 		{
 			
             var dX:Number 

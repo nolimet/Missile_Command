@@ -4,13 +4,15 @@ package
 	import flash.events.MouseEvent;
 	import flash.events.TimerEvent;
 	import flash.utils.Timer;
-	import factorys.Objects.Missle;
-	import utils.draw.Squar;
 	import flash.display.Sprite;
 	import flash.text.TextField;
 	import factorys.Objects.Explosion;
 	import factorys.Objects.Cannon;
 	import factorys.Objects.Bullet;
+	import factorys.Objects.Missle;
+	import utils.loaders.SoundPlayer;
+	import utils.draw.Squar;
+	
 	
 	/**
 	 * ...
@@ -29,6 +31,8 @@ package
 		private var _spawnDelay:int = 1000;
 		private var _enemyPerSpawn:int = 1;
 		
+		private var _backsound:SoundPlayer;
+		
 		public function Level() :void
 		{
 			placeCannons();
@@ -36,6 +40,7 @@ package
 			this.addEventListener(Event.ENTER_FRAME, step)
 			_spawner.addEventListener(TimerEvent.TIMER, eSpawner)
 			_spawner.start();
+			
 		}
 		
 		public function StartGame() :void
@@ -45,6 +50,7 @@ package
 			this.addEventListener(Event.ENTER_FRAME, step)
 			_spawner.addEventListener(TimerEvent.TIMER, eSpawner)
 			_spawner.start();
+			_backsound = new SoundPlayer("assets/sounds/21_Anniversary_Album_Mix.mp3");
 		}
 		
 		private function eSpawner(e:TimerEvent):void 
@@ -68,8 +74,8 @@ package
 				}
 				
 			}
-			
 			l = _cannons.length-1;
+			
 			for (var j:int = 0; j <= l; j++) 
 			{
 				_cannons[j].rotation = poinToMouse(_cannons[j]);
@@ -79,17 +85,18 @@ package
 			
 			for (var k:int = l; k >= 0; k--) 
 			{
-				_bullets[k].move(5);
-					_bullets[k].step();
-					if (_bullets[k].destroy)
+				_bullets[k].move(7);
+				_bullets[k].step();
+				//trace(k);
+				if (_bullets[k].destroy)
+				{
+					if (_bullets[k].explode)
 					{
-						if (_bullets[k].explode)
-						{
-							placeExplosion(_bullets[k].x, _bullets[k].y);
-						}
-						removeChild(_bullets[k]);
-						_bullets.splice(k,1)
+						placeExplosion(_bullets[k].x, _bullets[k].y);
 					}
+					removeChild(_bullets[k]);
+					_bullets.splice(k,1)
+				}
 			}
 			
 			l = _explosions.length - 1;

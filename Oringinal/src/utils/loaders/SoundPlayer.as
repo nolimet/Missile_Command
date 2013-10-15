@@ -15,12 +15,16 @@ package utils.loaders
 		public function SoundPlayer(url:String)
 		{
 			sound.load(new URLRequest(url));
-			channel = sound.play(0,9001,null);
+			channel = sound.play(0, 1, null);
 		}
 		
-		public function stop():void
+		public function stopS():void
 		{
 			channel.stop();
+		}
+		public function playS():void
+		{
+			channel = sound.play(0,1,null);
 		}
 	}
 

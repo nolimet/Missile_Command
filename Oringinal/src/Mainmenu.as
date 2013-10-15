@@ -1,6 +1,7 @@
 package  
 {
 	import flash.display.Sprite;
+	import utils.callulate.MathFunctions;
 	import utils.draw.Button;
 	/**
 	 * ...
@@ -8,12 +9,17 @@ package
 	 */
 	public class Mainmenu extends Sprite
 	{
-		public var StartGame:Button;
+		public var startGame:Button;
+		public var muteButton:Button;
 		
 		public function Mainmenu() 
 		{
-			StartGame = new Button(30, 200, 0, 0, 0x000000, "StartGame", 20, 0xffffff);
-			addChild(StartGame);
+			startGame = new Button(30, 200, 0, 0, 0x00ff00, "StartGame", 20, 0xffffff);
+			//muteButton = new Button(30, 100, 0, 0, 0x00ff00, "Mute", 20, 0xffffff);
+			muteButton = new Button(0, 0, 0, 0, 0x00ff00, "Mute", 20, 0xffffff);
+			
+			//addChild(startGame);
+			addChild(muteButton);
 		}
 		
 	}

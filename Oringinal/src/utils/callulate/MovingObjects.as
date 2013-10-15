@@ -20,7 +20,7 @@ package utils.callulate
 		public function move($speed:Number=0,$angle:Number=0):void
 		{
 			var speed:Point;
-			if ($angle == _anglelast && $speed == _speedlast);
+			if ($angle != _anglelast || $speed != _speedlast)
 			{
 				if ($angle == 0)
 				{
@@ -32,14 +32,18 @@ package utils.callulate
 				{
 					speed = MathExstend.callMove($speed, $angle)
 				}
-				this.x += speed.x;
-				this.y += speed.y;
+				
 				
 				
 				if (this.x < 0 || this.x > Main.resolution[0] || this.y > Main.resolution[1]||this.y<-40)
 				{
 					destroy = true;
 				}
+			}
+			if (speed != null)
+			{
+				this.x += speed.x;
+				this.y += speed.y;
 			}
 			_anglelast = $angle;
 		}

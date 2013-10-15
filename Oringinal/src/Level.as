@@ -173,7 +173,7 @@ package
 		}
 		private function placeExplosion($x:Number,$y:Number):void
 		{
-			var e:Explosion = new Explosion($x, $y, Math.random() * 1.5 + 0.5);
+			var e:Explosion = new Explosion($x, $y, Math.random() * 1.2 + 1);
 			addChild(e);
 			_explosions.push(e);
 		}
@@ -200,7 +200,7 @@ package
 		{
 			var b:Bullet;
 			var c:Cannon;
-			for (var i:int = 0; i < 5; i++) 
+			for (var i:int = 0; i < 6; i++) 
 			{
 				c = _cannons[i];
 				b = new Bullet (c.x, c.y, mouseX,mouseY);

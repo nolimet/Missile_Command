@@ -38,6 +38,15 @@ package
 			_spawner.start();
 		}
 		
+		public function StartGame() :void
+		{
+			placeCannons();
+			//newMissle(50);
+			this.addEventListener(Event.ENTER_FRAME, step)
+			_spawner.addEventListener(TimerEvent.TIMER, eSpawner)
+			_spawner.start();
+		}
+		
 		private function eSpawner(e:TimerEvent):void 
 		{
 			newMissle(Math.floor(Math.random() * _enemyPerSpawn));
@@ -94,47 +103,43 @@ package
 					_explosions.splice(m,1)
 				}
 			}
-			try 
+			//try 
+			//{
+				//var a:Explosion;
+				//var b:Missle;
+				//for (var n:int = 0; n < _explosions.length; n++) 
+				//{
+					//a = _explosions[n];
+					//for (var o:int = _missles.length; o >= 0; o--) 
+					//{
+						//b= _missles[o]
+						//if (a.hitTestObject(b))
+						//{
+							//removeChild(_missles[o]);
+							//_missles.splice(o,1)
+						//}
+					//}
+				//}
+			//}catch (e:Error)
+			//{
+				//trace("Error in hitTestObect")
+				//trace(e.message);
+			//}
+			
+			for each (var item:Explosion in _explosions) 
 			{
-				var a:Explosion;
-				var b:Missle;
-				for (var n:int = 0; n < _explosions.length; n++) 
+				for (var n:int = _missles.length-1; n >= 0; n--) 
 				{
-					a = _explosions[n];
-					for (var o:int = _missles.length; o >= 0; o--) 
+					if (item.hitTestObject(_missles[n]))
 					{
-						b= _missles[o]
-						if (a.hitTestObject(b))
-						{
-							removeChild(_missles[o]);
-							_missles.splice(o,1)
-						}
+						removeChild(_missles[n]);
+						_missles.splice(n, 1);
+						
+						
 					}
 				}
-			}catch (e:Error)
-			{
-				trace("Error in hitTestObect")
-				trace(e.message);
+				
 			}
-			
-				//else if (_world[i].tag == "Bullet")
-				//{
-					//_world[i].move(5);
-					//_world[i].step();
-					//if (_world[i].destroy)
-					//{
-						//if (_world[i].explode)
-						//{
-							//placeExplosion(_world[i].x, _world[i].y);
-						//}
-						//removeChild(_world[i]);
-						//_world.splice(i,1)
- 				//}
-				//else if (_world[i].tag == "Explosion")
-				//{
-					
-				//}
-			//}
 			if (Main.instance.fireCannon == true&&_fireDelay==0)
 			{
 				fireCannons();

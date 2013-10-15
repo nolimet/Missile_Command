@@ -1,48 +1,40 @@
 package {
-	import components.VelocityComponent;
-	import components.PositionComponent;
 	import components.DisplayComponent;
+	import components.PositionComponent;
+	import components.VelocityComponent;
+	import flash.utils.Dictionary;
 	/**
 	 * @author berendweij
 	 */
 	public class Entity {
 		
-		// de entity heeft standaard de volgende componenten
-		// volgende week maken we dit 'abstracter'
-		private var _display 	:	DisplayComponent;
-		private var _position	:	PositionComponent;
-		private var _velocity	:	VelocityComponent;
+		// lijst met alle componenten
+		// dit kan per entity verschillen
+		private var _components :	Dictionary;
 		
-		public function Entity(display : DisplayComponent, position : PositionComponent, velocity : VelocityComponent) : void
+		public function Entity() : void
 		{
-			this.display	=	display;
-			this.position	=	position;
-			this.velocity	=	velocity;
+			_components	=	new Dictionary();
 		}
 		
-		public function get display() : DisplayComponent {
-			return _display;
+		public function add( component:Object ):void
+		{
+			var componentClass : Class = component.constructor;
+			_components[ componentClass ] = component;
 		}
-
-		public function set display(display : DisplayComponent) : void {
-			_display = display;
-		}
-
-		public function get position() : PositionComponent {
-			return _position;
-		}
-
-		public function set position(position : PositionComponent) : void {
-			_position = position;
-		}
-
-		public function get velocity() : VelocityComponent {
-			return _velocity;
-		}
-
-		public function set velocity(velocity : VelocityComponent) : void {
-			_velocity = velocity;
-		}
-		
+		  
+		public function remove( componentClass:Class ):void
+		{
+			var index	: int = _components.indexOf(componentClass);
+			if (index > -1)
+			{
+				_components.splice(index, 1);
+			}
+		 }
+		  
+		 public function get( componentClass:Class ):Object
+		 {
+			return _components[ componentClass ];
+		 }
 	}
 }

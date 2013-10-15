@@ -1,4 +1,6 @@
 package systems {
+	import components.DisplayComponent;
+	import components.PositionComponent;
 	/**
 	 * @author berendweij
 	 */
@@ -9,19 +11,17 @@ package systems {
 			// in deze update staat de logica om de objecten visueel te laten zien
 			for each( var target:Entity in targets )
 			{
-				if(target.velocity.velocityX > 0)
+				// de render class moet weten WAT hij moet renden visueel (display)
+				// en WAAR hij dit moet renderen (position)
+				// de rest doet er niet toe voor dit systeem
+				// voor nu loopen we nog door alle targets
+				// maar we moeten alleen degene renderen die een display en een position hebben
+				if (target.get(DisplayComponent) && target.get(PositionComponent))
 				{
-					// we rijden naar rechts, dus laat de auto naar rechts kijken
-					target.display.view.scaleX	=	1;
+					target.get(DisplayComponent).view.x			=	target.get(PositionComponent).x;
+					target.get(DisplayComponent).view.y			=	target.get(PositionComponent).y;
+					target.get(DisplayComponent).view.rotation	=	target.get(PositionComponent).rotation;
 				}
-				else
-				{
-					// we rijden naar links, dus laat de auto naar links kijken
-					target.display.view.scaleX	=	-1;
-				}
-				target.display.view.x			=	target.position.x;
-				target.display.view.y			=	target.position.y;
-				target.display.view.rotation	=	target.position.rotation;
 			}
 		}
 		

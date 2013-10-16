@@ -62,6 +62,16 @@ package
 		
 		public function step(e:Event):void 
 		{
+			if (Main.instance.muted && _backsound.playing == true)
+			{
+				_backsound.stopS();
+			}
+			else if (Main.instance.muted == false && _backsound.playing == false)
+			{
+				_backsound.playS;
+			}
+			
+			
 			var l:int = _missles.length - 1
 			for (var i:int = l; i >= 0; i--) 
 			{

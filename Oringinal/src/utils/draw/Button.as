@@ -39,7 +39,9 @@ package utils.draw
 			_text = new TextField();
 			_text.defaultTextFormat = new TextFormat($font, $fontsize, $textcolour);
 			_text.text = $text;
+			_text.selectable = false;
 			addEventListener(MouseEvent.CLICK, mouseClick);
+			
 			if ($height == 0 && $width == 0)
 			{
 				$height = _text.textHeight + 5;
@@ -52,7 +54,7 @@ package utils.draw
 		
 		private function mouseClick(e:MouseEvent):void 
 		{
-			_clicked = true;
+			_clicked = !_clicked;
 			trace("clicked");
 		}
 		

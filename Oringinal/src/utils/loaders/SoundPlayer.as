@@ -11,20 +11,28 @@ package utils.loaders
 	{
 		private var sound:Sound = new Sound();
 		private var channel:SoundChannel = new SoundChannel();
+		private var _playing:Boolean = false;
 		
 		public function SoundPlayer(url:String)
 		{
 			sound.load(new URLRequest(url));
-			channel = sound.play(0, 1, null);
+			playS();
 		}
 		
 		public function stopS():void
 		{
 			channel.stop();
+			_playing=false
 		}
 		public function playS():void
 		{
-			channel = sound.play(0,1,null);
+			channel = sound.play(0, 1, null);
+			_playing=true
+		}
+		
+		public function get playing():Boolean 
+		{
+			return _playing;
 		}
 	}
 

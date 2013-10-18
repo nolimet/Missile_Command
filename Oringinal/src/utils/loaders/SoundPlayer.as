@@ -16,7 +16,8 @@ package utils.loaders
 		public function SoundPlayer(url:String)
 		{
 			sound.load(new URLRequest(url));
-			playS();
+			channel = sound.play(0, 1, null);
+			_playing=true
 		}
 		
 		public function stopS():void
@@ -24,12 +25,6 @@ package utils.loaders
 			channel.stop();
 			_playing=false
 		}
-		public function playS():void
-		{
-			channel = sound.play(0, 1, null);
-			_playing=true
-		}
-		
 		public function get playing():Boolean 
 		{
 			return _playing;

@@ -10,6 +10,7 @@ package
 	import factorys.Objects.Cannon;
 	import factorys.Objects.Bullet;
 	import factorys.Objects.Missle;
+	import utils.debug.soundLength;
 	import utils.loaders.SoundPlayer;
 	import utils.draw.Squar;
 	
@@ -33,6 +34,7 @@ package
 		
 		private var _backsound:SoundPlayer;
 		
+		private var _debugsoundlenght:soundLength
 		public function Level() :void
 		{
 			placeCannons();
@@ -51,6 +53,8 @@ package
 			_spawner.addEventListener(TimerEvent.TIMER, eSpawner)
 			_spawner.start();
 			_backsound = new SoundPlayer("assets/sounds/21_Anniversary_Album_Mix.mp3");
+			_backsound.stopS();
+			
 		}
 		
 		private function eSpawner(e:TimerEvent):void 
@@ -68,7 +72,8 @@ package
 			}
 			else if (Main.instance.muted == false && _backsound.playing == false)
 			{
-				_backsound.playS;
+				_backsound = new SoundPlayer("assets/sounds/21_Anniversary_Album_Mix.mp3");
+				_debugsoundlenght = new soundLength(_backsound);
 			}
 			
 			
@@ -160,7 +165,7 @@ package
 			if (Main.instance.fireCannon == true&&_fireDelay==0)
 			{
 				fireCannons();
-				_fireDelay = 5;
+				_fireDelay = 10;
 			}
 			else
 			{
@@ -214,7 +219,7 @@ package
 			{
 				c = _cannons[i];
 				b = new Bullet (c.x, c.y, mouseX,mouseY);
-				b.rotation=c.rotation
+				b.rotation = c.rotation + (Math.random() * 5- 2.5);
 				addChild(b);
 				_bullets.push(b);
 			}

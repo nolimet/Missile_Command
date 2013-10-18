@@ -26,7 +26,7 @@ package  factorys.Objects
 			this._mx = $mx;
 			this._my = $my;
 			//speed = new Point(Math.cos(angle)*5, Math.sin(angle)*5);
-			_art = new Squar(0, 0, 2, 2, 0x0000ff);
+			_art = new Squar(0, 0, 2, 2, 0x00AAFF);
 			addChild(_art);
 		}
 		

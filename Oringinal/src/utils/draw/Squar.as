@@ -25,7 +25,8 @@ package utils.draw
 		this.x = $x;
 		this.y = $y;
 		this.linewidth = linewidth;
-		this.tag=tag
+		this.tag = tag
+		
 		if (this.linewidth != 0){this.graphics.lineStyle(this.linewidth);}
 		this.graphics.beginFill(this.kleur);
 		this.graphics.drawRect(0, 0, this.$width, this.$height);

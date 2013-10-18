@@ -27,12 +27,15 @@ package utils.draw
 		 * @param $text : Set Text it will display
 		 * @param $fontsize : Set the size of the font
 		 * @param $textColour : Set colour of the text
+		 * @param $centered : Use center of object
 		 * @param $font : set the font of the text
 		 * @return 
 		 */
 		
-		public function Button($height:Number, $width:Number, $x:Number, $y:Number, $colour:uint, $text:String="",$fontsize:Number=12,$textcolour:uint=0x000000, $font:String = "Arial") 
+		public function Button($height:Number, $width:Number, $x:Number, $y:Number, $colour:uint, $text:String = "", $fontsize:Number = 12, $textcolour:uint = 0x000000, $centered:Boolean = false, $font:String = "Arial") 
 		{
+			var xoff:Number = 0;
+			var yoff:Number = 0;
 			this.x = $x;
 			this.y = $y;
 			
@@ -47,7 +50,14 @@ package utils.draw
 				$height = _text.textHeight + 5;
 				$width = _text.textWidth + 5;
 			}
-			_art = new Squar(0, 0, $height, $width, $colour);
+			if ($centered)
+			{
+				xoff = -$width / 2;
+				yoff = -$height / 2
+			}
+			_text.x = xoff;
+			_text.y = yoff;
+			_art = new Squar(xoff , yoff, $height, $width, $colour);
 			addChild(_art);
 			addChild(_text);
 		}

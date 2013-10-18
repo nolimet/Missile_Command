@@ -18,7 +18,7 @@ package
 	
 	public var fireCannon:Boolean;
 	public var boost:Boolean = false;
-	public var muted:Boolean = false;
+	public var muted:Boolean = true;
 	
 	private var _level:Level = new Level;
 	private var _mainmenu:Mainmenu = new Mainmenu;
@@ -57,7 +57,7 @@ package
 				{
 					removeChild(_mainmenu);
 				}
-				muted = !_mainmenu.muteButton.clicked;
+				muted = _mainmenu.muteButton.clicked;
 			}
 			
 		}

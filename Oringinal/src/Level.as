@@ -3,6 +3,9 @@ package
 	import flash.events.Event;
 	import flash.events.MouseEvent;
 	import flash.events.TimerEvent;
+	import flash.media.Sound;
+	import flash.media.SoundChannel;
+	import flash.net.URLRequest;
 	import flash.utils.Timer;
 	import flash.display.Sprite;
 	import flash.text.TextField;
@@ -29,20 +32,35 @@ package
 		private var _spawner:Timer = new Timer(300, 0);
 	
 		private var _fireDelay:int = 0;
-		private var _spawnDelay:int = 1000;
+		private var _spawnDelay:int = 50;
 		private var _enemyPerSpawn:int = 1;
 		
 		private var _backsound:SoundPlayer;
 		
 		private var _debugsoundlenght:soundLength
+		
+		private var _mouseToggle:Boolean;
+		private var _firesound:SoundPlayer
 		public function Level() :void
 		{
 			placeCannons();
-			//newMissle(50);
-			this.addEventListener(Event.ENTER_FRAME, step)
-			_spawner.addEventListener(TimerEvent.TIMER, eSpawner)
-			_spawner.start();
+			//this.addEventListener(Event.ENTER_FRAME, step)
+			//_spawner.addEventListener(TimerEvent.TIMER, eSpawner)
 			
+			Main.STAGE.addEventListener(MouseEvent.MOUSE_DOWN, mouseDown);
+			Main.STAGE.addEventListener(MouseEvent.MOUSE_UP, mouseUp);
+			//_spawner.start();
+			
+		}
+		
+		private function mouseUp(e:MouseEvent):void 
+		{
+			_mouseToggle =false;
+		}
+		
+		private function mouseDown(e:MouseEvent):void 
+		{
+			_mouseToggle = true;
 		}
 		
 		public function StartGame() :void
@@ -51,32 +69,58 @@ package
 			//newMissle(50);
 			this.addEventListener(Event.ENTER_FRAME, step)
 			_spawner.addEventListener(TimerEvent.TIMER, eSpawner)
+			Main.STAGE.addEventListener(MouseEvent.MOUSE_DOWN, mouseDown);
 			_spawner.start();
-			_backsound = new SoundPlayer("assets/sounds/21_Anniversary_Album_Mix.mp3");
-			_backsound.stopS();
+		}
+		
+		public function StopGame() :void
+		{
+			removeEventListener(Event.ENTER_FRAME, step);
+			_spawner.removeEventListener(TimerEvent.TIMER, eSpawner);
+			Main.STAGE.removeEventListener(MouseEvent.MOUSE_DOWN, mouseDown);
 			
+			var l:int = _missles.length - 1
+			for (var i:int = l; i >= 0; i--) 
+			{
+				removeChild(_missles[i]);
+				_missles.splice(i, 1)
+			}
+			l = _cannons.length-1;
+			
+			for (var j:int = l; j >= 0 ; j--) 
+			{
+				removeChild(_cannons[j]);
+				_cannons.splice(j, 1);
+			}
+			
+			l = _bullets.length - 1;
+			
+			for (var k:int = l; k >= 0; k--) 
+			{
+				removeChild(_bullets[k]);
+				_bullets.splice(k,1)
+			}
+			
+			l = _explosions.length - 1;
+			
+			for (var m:int = l; m >= 0; m--) 
+			{
+				removeChild(_explosions[m]);
+				_explosions.splice(m,1)
+			}
 		}
 		
 		private function eSpawner(e:TimerEvent):void 
 		{
-			newMissle(Math.floor(Math.random() * _enemyPerSpawn));
-			_spawner = new Timer(_spawnDelay, 1);
-			
+			if (Math.random() * (1 + Globals.score / 100) > 0.8)
+			{
+				newMissle(Math.floor(Math.random() * _enemyPerSpawn));
+				_spawner = new Timer(_spawnDelay, 1);
+			}
 		}
 		
 		public function step(e:Event):void 
 		{
-			if (Main.instance.muted && _backsound.playing == true)
-			{
-				_backsound.stopS();
-			}
-			else if (Main.instance.muted == false && _backsound.playing == false)
-			{
-				_backsound = new SoundPlayer("assets/sounds/21_Anniversary_Album_Mix.mp3");
-				_debugsoundlenght = new soundLength(_backsound);
-			}
-			
-			
 			var l:int = _missles.length - 1
 			for (var i:int = l; i >= 0; i--) 
 			{
@@ -85,7 +129,8 @@ package
 				if (_missles[i].destroy==true)
 				{
 					removeChild(_missles[i]);
-					_missles.splice(i,1)
+					_missles.splice(i, 1)
+					trace(Globals.score);
 				}
 				
 			}
@@ -125,55 +170,46 @@ package
 					_explosions.splice(m,1)
 				}
 			}
-			//try 
-			//{
-				//var a:Explosion;
-				//var b:Missle;
-				//for (var n:int = 0; n < _explosions.length; n++) 
-				//{
-					//a = _explosions[n];
-					//for (var o:int = _missles.length; o >= 0; o--) 
-					//{
-						//b= _missles[o]
-						//if (a.hitTestObject(b))
-						//{
-							//removeChild(_missles[o]);
-							//_missles.splice(o,1)
-						//}
-					//}
-				//}
-			//}catch (e:Error)
-			//{
-				//trace("Error in hitTestObect")
-				//trace(e.message);
-			//}
-			
 			for each (var item:Explosion in _explosions) 
 			{
 				for (var n:int = _missles.length-1; n >= 0; n--) 
 				{
 					if (item.hitTestObject(_missles[n]))
 					{
-						removeChild(_missles[n]);
-						_missles.splice(n, 1);
-						
+						_missles[n].destroy = true;
+						Globals.score+=1
 						
 					}
 				}
 				
 			}
-			if (Main.instance.fireCannon == true&&_fireDelay==0)
+			for each (var item2:Bullet in _bullets) 
+			{
+				for (var o:int = _missles.length-1; o >= 0; o--) 
+				{
+					if (item2.hitTestObject(_missles[o]))
+					{
+						try{
+						_missles[o].destroy = true;
+						Globals.score += 1;
+						item2.destroy = true;
+						}
+						catch (e:Error)
+						{
+							trace(e.message);
+						}
+						
+					}
+				}
+				
+			}
+			
+			if (_mouseToggle && _fireDelay <= 0)
 			{
 				fireCannons();
-				_fireDelay = 10;
+				_fireDelay=10
 			}
-			else
-			{
-				if (_fireDelay != 0)
-				{
-					_fireDelay--
-				}
-			}
+			_fireDelay--
 		}
 		
 		private function newMissle(amount:int=0) : void
@@ -215,11 +251,16 @@ package
 		{
 			var b:Bullet;
 			var c:Cannon;
+			var offSet:Number = 3
+			if (Globals.muted == false)
+			{
+				_firesound = new SoundPlayer("assets/sounds/Fire.mp3", 20)
+			}
 			for (var i:int = 0; i < 6; i++) 
 			{
 				c = _cannons[i];
 				b = new Bullet (c.x, c.y, mouseX,mouseY);
-				b.rotation = c.rotation + (Math.random() * 5- 2.5);
+				b.rotation = c.rotation + (Math.random() * offSet - (offSet/2));
 				addChild(b);
 				_bullets.push(b);
 			}

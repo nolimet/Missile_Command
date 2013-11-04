@@ -1,5 +1,6 @@
 package utils.draw 
 {
+	import adobe.utils.ProductManager;
 	import flash.display.Sprite;
 	import flash.events.MouseEvent;
 	import flash.text.TextField;
@@ -15,6 +16,14 @@ package utils.draw
 		private var _art:Squar;
 		private var _text:TextField;
 		private var _clicked:Boolean = false;
+		private var _centered:Boolean;
+		private var _height:Number;
+		private var _width:Number;
+		private var _colourInactive:uint;
+		private var _colourActive:uint;
+		private var _xoff:Number = 0;
+		private var _yoff:Number = 0;
+		
 		/**
 		 * Function make a Simple clickble button
 		 *
@@ -23,27 +32,35 @@ package utils.draw
 		 * @param $width : Set width of bouding box
 		 * @param $x : Set location on the x axis
 		 * @param $y : Set location on the y axis
-		 * @param $colour : Set boudning box colour
+		 * @param $colourActive : Set boudning box colour
+		 * @param $colourInactive : Set boudning box colour
 		 * @param $text : Set Text it will display
 		 * @param $fontsize : Set the size of the font
 		 * @param $textColour : Set colour of the text
 		 * @param $centered : Use center of object
 		 * @param $font : set the font of the text
+		 * @param $clickble : if you can click on it
 		 * @return 
 		 */
 		
-		public function Button($height:Number, $width:Number, $x:Number, $y:Number, $colour:uint, $text:String = "", $fontsize:Number = 12, $textcolour:uint = 0x000000, $centered:Boolean = false, $font:String = "Arial") 
+		public function Button($height:Number, $width:Number, $x:Number, $y:Number, $colourActive:uint,$colourInactive:uint, $text:String = "", $fontsize:Number = 12, $textcolour:uint = 0x000000, $centered:Boolean = false, $font:String = "Arial", $clickble:Boolean = true) 
 		{
-			var xoff:Number = 0;
-			var yoff:Number = 0;
+			
 			this.x = $x;
 			this.y = $y;
+			_colourActive = $colourActive;
+			_colourInactive = $colourInactive;
+			_height = $height;
+			_width = $width;
+			_centered = $centered
 			
 			_text = new TextField();
 			_text.defaultTextFormat = new TextFormat($font, $fontsize, $textcolour);
-			_text.text = $text;
+			_text.text = $text
+			_text.width = _text.textWidth+5;
+			_text.height = _text.textHeight+3;
 			_text.selectable = false;
-			addEventListener(MouseEvent.CLICK, mouseClick);
+			if($clickble){addEventListener(MouseEvent.CLICK, mouseClick);}
 			
 			if ($height == 0 && $width == 0)
 			{
@@ -52,12 +69,12 @@ package utils.draw
 			}
 			if ($centered)
 			{
-				xoff = -$width / 2;
-				yoff = -$height / 2
+				_xoff = -$width / 2;
+				_yoff = -$height / 2
 			}
-			_text.x = xoff;
-			_text.y = yoff;
-			_art = new Squar(xoff , yoff, $height, $width, $colour);
+			_text.x = _xoff;
+			_text.y = _yoff;
+			_art = new Squar(_xoff , _yoff, $height, $width, $colourInactive);
 			addChild(_art);
 			addChild(_text);
 		}
@@ -66,6 +83,18 @@ package utils.draw
 		{
 			_clicked = !_clicked;
 			trace("clicked");
+			if (_clicked)
+			{
+				removeChild(_art);
+				_art = new Squar(_xoff , _yoff, _height, _width, _colourActive);
+				addChild(_art);
+			}
+			else
+			{
+				removeChild(_art);
+				_art = new Squar(_xoff , _yoff, _height, _width, _colourInactive);
+				addChild(_art);
+			}
 		}
 		
 		public function set text(value:TextField):void 

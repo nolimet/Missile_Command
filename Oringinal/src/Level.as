@@ -14,6 +14,7 @@ package
 	import factorys.Objects.Bullet;
 	import factorys.Objects.Missle;
 	import utils.debug.soundLength;
+	import utils.draw.Button;
 	import utils.loaders.SoundPlayer;
 	import utils.draw.Squar;
 	
@@ -24,33 +25,34 @@ package
 	 */
 	public class Level extends Sprite 
 	{
+		//display
 		private var _missles:Array = [];
 		private var _cannons:Array = [];
 		private var _bullets:Array = [];
 		private var _explosions:Array = [];
+		private var _levelText:Button;
 		
-		private var _spawner:Timer = new Timer(300, 0);
-	
+		//timers
+		private var _spawner:Timer = new Timer(300, 1);
+		
+		//numbers
 		private var _fireDelay:int = 0;
 		private var _spawnDelay:int = 50;
 		private var _enemyPerSpawn:int = 1;
 		
-		private var _backsound:SoundPlayer;
-		
-		private var _debugsoundlenght:soundLength
-		
+		//boolean's
 		private var _mouseToggle:Boolean;
-		private var _firesound:SoundPlayer
+		
+		//sounds
+		private var _backsound:SoundPlayer;
+		private var _firesound:SoundPlayer;
+		
 		public function Level() :void
 		{
 			placeCannons();
-			//this.addEventListener(Event.ENTER_FRAME, step)
-			//_spawner.addEventListener(TimerEvent.TIMER, eSpawner)
 			
 			Main.STAGE.addEventListener(MouseEvent.MOUSE_DOWN, mouseDown);
 			Main.STAGE.addEventListener(MouseEvent.MOUSE_UP, mouseUp);
-			//_spawner.start();
-			
 		}
 		
 		private function mouseUp(e:MouseEvent):void 
@@ -65,8 +67,8 @@ package
 		
 		public function StartGame() :void
 		{
+			
 			placeCannons();
-			//newMissle(50);
 			this.addEventListener(Event.ENTER_FRAME, step)
 			_spawner.addEventListener(TimerEvent.TIMER, eSpawner)
 			Main.STAGE.addEventListener(MouseEvent.MOUSE_DOWN, mouseDown);
@@ -115,8 +117,13 @@ package
 			if (Math.random() * (1 + Globals.score / 100) > 0.8)
 			{
 				newMissle(Math.floor(Math.random() * _enemyPerSpawn));
-				_spawner = new Timer(_spawnDelay, 1);
 			}
+			if (Globals.score-Globals.scoreLastLevel => Globals.nextLevel)
+			{
+				Globals.level += 1;
+				
+			}
+			_spawner = new Timer(_spawnDelay, 1);
 		}
 		
 		public function step(e:Event):void 
@@ -128,9 +135,12 @@ package
 				_missles[i].move(_missles[i].speed,_missles[i].angle);
 				if (_missles[i].destroy==true)
 				{
+					if (_missles[i].y > Main.resolution[1])
+					{
+						Globals.health--
+					}
 					removeChild(_missles[i]);
 					_missles.splice(i, 1)
-					trace(Globals.score);
 				}
 				
 			}
@@ -147,7 +157,6 @@ package
 			{
 				_bullets[k].move(7);
 				_bullets[k].step();
-				//trace(k);
 				if (_bullets[k].destroy)
 				{
 					if (_bullets[k].explode)

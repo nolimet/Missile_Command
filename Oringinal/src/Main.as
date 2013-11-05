@@ -27,6 +27,7 @@ package
 	private var _currentRoom:int = -1;
 	private var _loadedNewRoom:Boolean = false;
 	public var _health:int = 0;
+	private var _gameOver:GameOver;
 	
 	public static var localData:SharedObject
 
@@ -58,9 +59,9 @@ package
 			}
 			catch (e:Error)
 			{
-				trace(e.message);
 			}
 			roomChange(0)
+			trace(Main.localData.data.highscore);
 			//_level  = new Level
 			stage.addEventListener(KeyboardEvent.KEY_DOWN, KeyDown);
 			addEventListener(Event.ENTER_FRAME, Update);
@@ -91,6 +92,9 @@ package
 				_level = new Level();
 				localData.flush();
 			}
+			else if (oldRoom == 2) {
+				removeChild(_gameOver);
+			}
 			
 			if (_currentRoom == 0)
 			{
@@ -105,12 +109,22 @@ package
 			{
 				if (_loadedNewRoom==false)
 				{
+					Globals.score = 0;
 					Globals.health = Globals.maxHealth;
 					_gui = new gui();
 					addChild(_gui);
 					_level = new Level();
 					_level.StartGame();
 					addChild(_level);
+					_loadedNewRoom = true;
+				}
+			}
+			else if (_currentRoom == 2)
+			{
+				if (_loadedNewRoom == false)
+				{
+					_gameOver = new GameOver();
+					addChild(_gameOver);
 					_loadedNewRoom = true;
 				}
 			}
@@ -136,6 +150,13 @@ package
 					roomChange(1);
 				}
 				Globals.muted = _mainmenu.mute.clicked;
+				if (_mainmenu.resetScore.clicked)
+				{
+					Globals.HighScore = 0
+					localData.clear();
+					trace("score reset!");
+					_mainmenu.resetScore.clicked = false;
+				}
 			}
 			
 			if (_currentRoom == 1)

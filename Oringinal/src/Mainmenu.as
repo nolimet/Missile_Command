@@ -21,12 +21,13 @@ package
 			startGame = new Button(0, 0, 400, 350, 0x00ff00,0x00ff00, "StartGame", 30, 0xffffff,true, Globals.font);
 			_highScore = new Button(0, 0, 0, 0, 0x000000,0x000000, "highscore: "+Globals.HighScore, 32, 0xffffff, false, Globals.font, false);
 			mute = new Button(0, 0, 400,300, 0x00ff00,0xff0000, "Mute", 20, 0xffffff,true,Globals.font);
-			resetScore = new Button(0, 0,800,600, 0x00ff00,0x00ff00, "ResetScore", 20, 0xffffff,true,Globals.font);
+			resetScore = new Button(0, 0,740,580, 0x00ff00,0x00ff00, "ResetScore", 20, 0xffffff,true,Globals.font);
 			
 			addChild(startGame);
 			addChild(mute);
 			addChild(fullScreen);
 			addChild(_highScore);
+			addChild(resetScore);
 		}
 		
 	}

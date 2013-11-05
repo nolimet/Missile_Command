@@ -48,11 +48,7 @@ package utils.draw
 			
 			this.x = $x;
 			this.y = $y;
-			_colourActive = $colourActive;
-			_colourInactive = $colourInactive;
-			_height = $height;
-			_width = $width;
-			_centered = $centered
+			
 			
 			_text = new TextField();
 			_text.defaultTextFormat = new TextFormat($font, $fontsize, $textcolour);
@@ -71,10 +67,18 @@ package utils.draw
 			{
 				_xoff = -$width / 2;
 				_yoff = -$height / 2
-			}
+			}  
 			_text.x = _xoff;
 			_text.y = _yoff;
 			_art = new Squar(_xoff , _yoff, $height, $width, $colourInactive);
+			
+			//some var's where edited so I put them into privated var's here
+			_colourActive = $colourActive;
+			_colourInactive = $colourInactive;
+			_height = $height;
+			_width = $width;
+			_centered = $centered
+			
 			addChild(_art);
 			addChild(_text);
 		}
@@ -82,18 +86,27 @@ package utils.draw
 		private function mouseClick(e:MouseEvent):void 
 		{
 			_clicked = !_clicked;
-			trace("clicked");
+			draw();
+			
+		}
+		
+		private function draw() : void
+		{
 			if (_clicked)
 			{
+				removeChild(_text);
 				removeChild(_art);
 				_art = new Squar(_xoff , _yoff, _height, _width, _colourActive);
 				addChild(_art);
+				addChild(_text);
 			}
 			else
 			{
+				removeChild(_text);
 				removeChild(_art);
 				_art = new Squar(_xoff , _yoff, _height, _width, _colourInactive);
 				addChild(_art);
+				addChild(_text);
 			}
 		}
 		
@@ -106,6 +119,22 @@ package utils.draw
 		{
 			
 			return _clicked;
+		}
+		
+		public function set clicked(value:Boolean):void 
+		{
+			_clicked = value;
+			draw();
+		}
+		
+		public function set text(value:TextField):void 
+		{
+			_text = value;
+		}
+		
+		public function set art(value:Squar):void 
+		{
+			_art = value;
 		}
 		
 	}

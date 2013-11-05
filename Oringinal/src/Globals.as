@@ -13,7 +13,7 @@ package
 		static public var health:int;
 		static public var maxHealth:int = 10;
 		static public var level:int = 0;
-		static public var nextLevel:int = 0;
+		static public var nextLevel:int = 10;
 		static public var scoreLastLevel:int = 0;
 		//static var 
 		

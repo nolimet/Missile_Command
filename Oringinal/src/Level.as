@@ -33,11 +33,11 @@ package
 		private var _levelText:Button;
 		
 		//timers
-		private var _spawner:Timer = new Timer(300, 1);
+		private var _spawner:Timer = new Timer(5000, 0);
 		
 		//numbers
 		private var _fireDelay:int = 0;
-		private var _spawnDelay:int = 50;
+		private var _spawnDelay:int = 1000;
 		private var _enemyPerSpawn:int = 1;
 		
 		//boolean's
@@ -114,16 +114,23 @@ package
 		
 		private function eSpawner(e:TimerEvent):void 
 		{
-			if (Math.random() * (1 + Globals.score / 100) > 0.8)
-			{
-				newMissle(Math.floor(Math.random() * _enemyPerSpawn));
-			}
-			if (Globals.score-Globals.scoreLastLevel => Globals.nextLevel)
+			//if (Math.random() * (1 + Globals.score / 100) > 0.8)
+			//{
+				//newMissle(Math.floor(Math.random() * _enemyPerSpawn));
+			//}
+			if (Globals.score-Globals.scoreLastLevel >= Globals.nextLevel)
 			{
 				Globals.level += 1;
-				
+				_enemyPerSpawn = 1 + Math.floor(0.2 + Globals.level);
+				Globals.scoreLastLevel = Globals.score;
+				Globals.nextLevel += 1
+				Main.instance._gui.notifiy.alpha = 1
+				Main.instance._gui.notifiy.text.text = "LeveL " + Globals.level;
 			}
-			_spawner = new Timer(_spawnDelay, 1);
+			
+			
+			newMissle(Math.floor(Math.random() * _enemyPerSpawn))
+			//_spawner = new Timer(_spawnDelay, 1);
 		}
 		
 		public function step(e:Event):void 

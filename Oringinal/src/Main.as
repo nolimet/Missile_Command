@@ -22,7 +22,7 @@ package
 	
 	private var _level:Level;
 	private var _mainmenu:Mainmenu = new Mainmenu;
-	private var _gui:gui;
+	public var _gui:gui;
 	private var _boostDure:int = 0;
 	private var _currentRoom:int = -1;
 	private var _loadedNewRoom:Boolean = false;
@@ -155,6 +155,7 @@ package
 					Globals.HighScore = 0
 					localData.clear();
 					trace("score reset!");
+					_mainmenu.highScore.text.text = "highscore: " + Globals.HighScore
 					_mainmenu.resetScore.clicked = false;
 				}
 			}

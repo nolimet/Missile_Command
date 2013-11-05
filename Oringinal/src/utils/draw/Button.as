@@ -13,8 +13,8 @@ package utils.draw
 	 */
 	public class Button extends Sprite 
 	{
-		private var _art:Squar;
-		private var _text:TextField;
+		public var art:Squar;
+		public var text:TextField;
 		private var _clicked:Boolean = false;
 		private var _centered:Boolean;
 		private var _height:Number;
@@ -40,37 +40,39 @@ package utils.draw
 		 * @param $centered : Use center of object
 		 * @param $font : set the font of the text
 		 * @param $clickble : if you can click on it
+		 * @param $Alpha : Set alpha of square
 		 * @return 
 		 */
 		
-		public function Button($height:Number, $width:Number, $x:Number, $y:Number, $colourActive:uint,$colourInactive:uint, $text:String = "", $fontsize:Number = 12, $textcolour:uint = 0x000000, $centered:Boolean = false, $font:String = "Arial", $clickble:Boolean = true) 
+		public function Button($height:Number, $width:Number, $x:Number, $y:Number, $colourActive:uint,$colourInactive:uint, $text:String = "", $fontsize:Number = 12, $textcolour:uint = 0x000000, $centered:Boolean = false, $font:String = "Arial", $clickble:Boolean = true, $Alpha:Number=1) 
 		{
 			
 			this.x = $x;
 			this.y = $y;
 			
 			
-			_text = new TextField();
-			_text.defaultTextFormat = new TextFormat($font, $fontsize, $textcolour);
-			_text.text = $text
-			_text.width = _text.textWidth+5;
-			_text.height = _text.textHeight+3;
-			_text.selectable = false;
+			text = new TextField();
+			text.defaultTextFormat = new TextFormat($font, $fontsize, $textcolour);
+			text.text = $text
+			text.width = text.textWidth+5;
+			text.height = text.textHeight+3;
+			text.selectable = false;
 			if($clickble){addEventListener(MouseEvent.CLICK, mouseClick);}
 			
 			if ($height == 0 && $width == 0)
 			{
-				$height = _text.textHeight + 5;
-				$width = _text.textWidth + 5;
+				$height = text.textHeight + 5;
+				$width = text.textWidth + 5;
 			}
 			if ($centered)
 			{
 				_xoff = -$width / 2;
 				_yoff = -$height / 2
 			}  
-			_text.x = _xoff;
-			_text.y = _yoff;
-			_art = new Squar(_xoff , _yoff, $height, $width, $colourInactive);
+			text.x = _xoff;
+			text.y = _yoff;
+			art = new Squar(_xoff , _yoff, $height, $width, $colourInactive);
+			art.alpha = $Alpha;
 			
 			//some var's where edited so I put them into privated var's here
 			_colourActive = $colourActive;
@@ -79,8 +81,8 @@ package utils.draw
 			_width = $width;
 			_centered = $centered
 			
-			addChild(_art);
-			addChild(_text);
+			addChild(art);
+			addChild(text);
 		}
 		
 		private function mouseClick(e:MouseEvent):void 
@@ -94,25 +96,20 @@ package utils.draw
 		{
 			if (_clicked)
 			{
-				removeChild(_text);
-				removeChild(_art);
-				_art = new Squar(_xoff , _yoff, _height, _width, _colourActive);
-				addChild(_art);
-				addChild(_text);
+				removeChild(text);
+				removeChild(art);
+				art = new Squar(_xoff , _yoff, _height, _width, _colourActive);
+				addChild(art);
+				addChild(text);
 			}
 			else
 			{
-				removeChild(_text);
-				removeChild(_art);
-				_art = new Squar(_xoff , _yoff, _height, _width, _colourInactive);
-				addChild(_art);
-				addChild(_text);
+				removeChild(text);
+				removeChild(art);
+				art = new Squar(_xoff , _yoff, _height, _width, _colourInactive);
+				addChild(art);
+				addChild(text);
 			}
-		}
-		
-		public function set text(value:TextField):void 
-		{
-			_text = value;
 		}
 		
 		public function get clicked():Boolean 
@@ -126,17 +123,6 @@ package utils.draw
 			_clicked = value;
 			draw();
 		}
-		
-		public function set text(value:TextField):void 
-		{
-			_text = value;
-		}
-		
-		public function set art(value:Squar):void 
-		{
-			_art = value;
-		}
-		
 	}
 
 }

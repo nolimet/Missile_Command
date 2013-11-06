@@ -116,6 +116,7 @@ package
 					Globals.score = 0;
 					Globals.health = Globals.maxHealth;
 					Globals.nextLevel = 10;
+					Globals.level=0
 					Globals.scoreLastLevel = 0;
 					_gui = new gui();
 					addChild(_gui);

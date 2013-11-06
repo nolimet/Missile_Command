@@ -74,6 +74,10 @@ package
 			{
 			 roomChange(0);	
 			}
+			if (e.keyCode == 78)
+			{
+				Globals.score += Globals.nextLevel
+			}
 		}
 		private function roomChange(numb:int) : void
 		{
@@ -111,6 +115,8 @@ package
 				{
 					Globals.score = 0;
 					Globals.health = Globals.maxHealth;
+					Globals.nextLevel = 10;
+					Globals.scoreLastLevel = 0;
 					_gui = new gui();
 					addChild(_gui);
 					_level = new Level();

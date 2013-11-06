@@ -125,7 +125,7 @@ package
 				Globals.scoreLastLevel = Globals.score;
 				Globals.nextLevel += 1
 				Main.instance._gui.notifiy.alpha = 1
-				Main.instance._gui.notifiy.text.text = "LeveL " + Globals.level;
+				Main.instance._gui.notifiy.text.text = "Level " + Globals.level;
 			}
 			
 			

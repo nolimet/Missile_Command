@@ -26,10 +26,10 @@ package
 	public class Level extends Sprite 
 	{
 		//display
-		private var _missles:Array = [];
-		private var _cannons:Array = [];
-		private var _bullets:Array = [];
-		private var _explosions:Array = [];
+		private var _missles:Vector.<Missle> = new Vector.<Missle>;
+		private var _cannons:Vector.<Cannon> = new Vector.<Cannon>;
+		private var _bullets:Vector.<Bullet> = new Vector.<Bullet>;
+		private var _explosions:Vector.<Explosion> = new Vector.<Explosion>;
 		private var _levelText:Button;
 		
 		//timers
@@ -69,9 +69,9 @@ package
 		{
 			
 			placeCannons();
-			this.addEventListener(Event.ENTER_FRAME, step)
-			_spawner.addEventListener(TimerEvent.TIMER, eSpawner)
-			Main.STAGE.addEventListener(MouseEvent.MOUSE_DOWN, mouseDown);
+			this.addEventListener(Event.ENTER_FRAME, step, false, 0, true);
+			_spawner.addEventListener(TimerEvent.TIMER, eSpawner, false, 0, true);
+			Main.STAGE.addEventListener(MouseEvent.MOUSE_DOWN, mouseDown, false, 0, true);
 			_spawner.start();
 		}
 		

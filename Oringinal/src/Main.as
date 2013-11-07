@@ -135,9 +135,8 @@ package
 					_loadedNewRoom = true;
 				}
 			}
-			
-			
 		}
+		
 		private function Update(e:Event):void 
 		{
 			if (Globals.score > Globals.HighScore)

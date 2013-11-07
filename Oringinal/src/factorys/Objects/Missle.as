@@ -13,7 +13,7 @@ package  factorys.Objects
 	 */
 	public class Missle extends MovingObjects
 	{
-		public var speed:Number = Math.random() * 4+2;
+		public var speed:Number = Math.random() * 3+2;
 		private var art:Squar = new Squar(0, 0, 4, 4, 0xff0000);
 		public var tag:String = "Missle"
 		//public var angle:Number = Math.random() * 45 + 67.5;
